@@ -37,7 +37,7 @@ class Persona:
         self.edad = edad
         self.telefono = telefono
 
-    def imprimir_data(self):
+    def imprimir_data(self) -> None:
         """
         Imprime los datos básicos de la persona.
 
@@ -49,7 +49,7 @@ class Persona:
         )
 
     @classmethod
-    def crear_persona(cls):
+    def crear_persona(cls) -> "Persona":
         """
         Método de clase para crear una instancia de Persona por entrada del usuario.
 

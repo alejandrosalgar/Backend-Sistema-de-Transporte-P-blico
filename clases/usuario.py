@@ -120,7 +120,7 @@ class Usuario(persona.Persona):
         """
         return self.historial_compras
 
-    def imprimir_data(self):
+    def imprimir_data(self) -> None:
         """
         Imprime los datos del usuario incluyendo saldo actual.
 
@@ -133,7 +133,7 @@ class Usuario(persona.Persona):
         )
 
     @classmethod
-    def crear_usuario(cls):
+    def crear_usuario(cls) -> "Usuario":
         """
         Método de clase para crear una instancia de Usuario por entrada del usuario.
 
