@@ -16,6 +16,7 @@ Funcionalidades principales:
 """
 
 from src.entities import Metro, Bus, Vector, Usuario
+from src.entities.input_utils import solicitar_entero, solicitar_flotante
 
 # Instancia principal que administra la lista de transportes
 vector1 = Vector()
@@ -58,9 +59,11 @@ while True:
             if usuario1 is None:
                 print("Debe crear un usuario primero (opción 4)")
             else:
-                usuario1.recargar_tarjeta(
-                    float(input("Ingrese el monto a recargar: "))
-                )
+                monto = solicitar_flotante("Ingrese el monto a recargar: ")
+                try:
+                    usuario1.recargar_tarjeta(monto)
+                except ValueError as e:
+                    print("Error de recarga:", e)
 
         case "6":
             # Registrar compra de pasaje
@@ -70,8 +73,11 @@ while True:
                 transporte_tipo = input(
                     "Ingrese el tipo de transporte (bus, metro, tranvía): "
                 )
-                monto = float(input("Ingrese el costo del pasaje: "))
-                usuario1.registrar_compra(transporte_tipo, monto)
+                monto = solicitar_flotante("Ingrese el costo del pasaje: ")
+                try:
+                    usuario1.registrar_compra(transporte_tipo, monto)
+                except ValueError as e:
+                    print("Error en compra:", e)
 
         case "7":
             # Mostrar historial de compras del usuario
