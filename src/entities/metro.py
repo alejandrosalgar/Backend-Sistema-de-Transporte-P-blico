@@ -1,7 +1,13 @@
-from clases import transporte
+"""
+Módulo que contiene la clase Metro.
+
+Clase que representa un Metro dentro del sistema de transporte.
+"""
+
+from src.entities.transporte import Transporte
 
 
-class Metro(transporte.Transporte):
+class Metro(Transporte):
     """
     Clase que representa un Metro dentro del sistema de transporte.
 
@@ -9,7 +15,9 @@ class Metro(transporte.Transporte):
     'numero_estaciones', propio del sistema de metro.
     """
 
-    def __init__(self, marca: str, modelo: str, capacidad: int, numero_estaciones: int):
+    def __init__(
+        self, marca: str, modelo: str, capacidad: int, numero_estaciones: int
+    ) -> None:
         """
         Inicializa un objeto Metro.
 
@@ -20,9 +28,14 @@ class Metro(transporte.Transporte):
             numero_estaciones (int): Número de estaciones que recorre.
         """
         super().__init__(marca, modelo, capacidad)
-        self.numero_estaciones = numero_estaciones
+        self._numero_estaciones = numero_estaciones
 
-    def imprimir_data(self):
+    @property
+    def numero_estaciones(self) -> int:
+        """Obtiene el número de estaciones del metro."""
+        return self._numero_estaciones
+
+    def imprimir_data(self) -> None:
         """
         Imprime la información completa del metro en consola.
 
@@ -31,11 +44,11 @@ class Metro(transporte.Transporte):
         print(
             f"La marca del Metro es {self.marca}, modelo {self.modelo}, "
             f"capacidad de {self.capacidad} personas, "
-            f"con {self.numero_estaciones} estaciones"
+            f"con {self._numero_estaciones} estaciones"
         )
 
     @classmethod
-    def añadir_metro(cls):
+    def añadir_metro(cls) -> "Metro":
         """
         Crea un nuevo objeto Metro solicitando los datos al usuario.
 
@@ -48,5 +61,7 @@ class Metro(transporte.Transporte):
         marca = input("Ingrese la marca del metro: ")
         modelo = input("Ingrese el modelo del metro: ")
         capacidad = int(input("Ingrese la capacidad del metro: "))
-        numero_estaciones = int(input("Ingrese el número de estaciones del metro: "))
+        numero_estaciones = int(
+            input("Ingrese el número de estaciones del metro: ")
+        )
         return cls(marca, modelo, capacidad, numero_estaciones)
