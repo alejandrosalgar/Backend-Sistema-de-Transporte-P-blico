@@ -16,9 +16,7 @@ class Persona:
         telefono (str): Número de teléfono de contacto.
     """
 
-    def __init__(
-        self, nombre: str, documento: str, edad: int, telefono: str
-    ) -> None:
+    def __init__(self, nombre: str, documento: str, edad: int, telefono: str) -> None:
         """
         Inicializa una nueva instancia de Persona.
 
