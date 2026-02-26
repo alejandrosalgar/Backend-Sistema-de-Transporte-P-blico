@@ -22,13 +22,6 @@ vector1 = Vector()
 usuario1 = None
 
 while True:
-    """
-    Bucle principal del sistema.
-
-    Muestra el menú de opciones y ejecuta la acción correspondiente
-    según la selección del usuario.
-    """
-
     print("Bienvenido al programa de Sistema de Transporte")
     print("1. Agregar un nuevo metro")
     print("2. Agregar un nuevo bus")
@@ -62,21 +55,32 @@ while True:
 
         case "5":
             # Recargar saldo del usuario
-            usuario1.recargar_tarjeta(float(input("Ingrese el monto a recargar: ")))
+            if usuario1 is None:
+                print("Debe crear un usuario primero (opción 4)")
+            else:
+                usuario1.recargar_tarjeta(
+                    float(input("Ingrese el monto a recargar: "))
+                )
 
         case "6":
             # Registrar compra de pasaje
-            transporte_tipo = input(
-                "Ingrese el tipo de transporte (bus, metro, tranvía): "
-            )
-            monto = float(input("Ingrese el costo del pasaje: "))
-            usuario1.registrar_compra(transporte_tipo, monto)
+            if usuario1 is None:
+                print("Debe crear un usuario primero (opción 4)")
+            else:
+                transporte_tipo = input(
+                    "Ingrese el tipo de transporte (bus, metro, tranvía): "
+                )
+                monto = float(input("Ingrese el costo del pasaje: "))
+                usuario1.registrar_compra(transporte_tipo, monto)
 
         case "7":
             # Mostrar historial de compras del usuario
-            print("Historial de compras del usuario:")
-            for compra in usuario1.historial_compras:
-                print(compra)
+            if usuario1 is None:
+                print("Debe crear un usuario primero (opción 4)")
+            else:
+                print("Historial de compras del usuario:")
+                for compra in usuario1.historial_compras:
+                    print(compra)
 
         case "0":
             # Salir del programa
