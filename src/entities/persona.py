@@ -16,9 +16,7 @@ class Persona:
         telefono (str): Número de teléfono de contacto.
     """
 
-    def __init__(
-        self, nombre: str, documento: str, edad: int, telefono: str
-    ) -> None:
+    def __init__(self, nombre: str, documento: str, edad: int, telefono: str) -> None:
         """
         Inicializa una nueva instancia de Persona.
 
@@ -69,11 +67,17 @@ class Persona:
         """
         Método de clase para crear una instancia de Persona por entrada del usuario.
 
+        Se aplica saneamiento en los campos numéricos para evitar que un valor
+        incorrecto termine el programa. El nombre, documento y teléfono se leen
+        directamente porque son cadenas.
+
         Returns:
             Persona: Nueva instancia con datos ingresados por el usuario.
         """
+        from src.entities.input_utils import solicitar_entero
+
         nombre = input("Ingrese el nombre: ")
         documento = input("Ingrese el documento: ")
-        edad = int(input("Ingrese la edad: "))
+        edad = solicitar_entero("Ingrese la edad: ")
         telefono = input("Ingrese el teléfono: ")
         return cls(nombre, documento, edad, telefono)
