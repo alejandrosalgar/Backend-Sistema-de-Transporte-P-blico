@@ -138,9 +138,10 @@ El proyecto sigue un flujo de ramas protegidas:
 
 Esto asegura que los cambios se propagan ordenadamente entre ambientes.
 
-## Autor
+## Autores
 
 **Samuel** (usuario GitHub: @chimuelo1014)
+**Simon Avila (usuario GitHub: @simon7717)
 
 ## Licencia
 
