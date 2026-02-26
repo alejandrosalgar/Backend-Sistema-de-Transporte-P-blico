@@ -1,4 +1,10 @@
-from clases import transporte
+"""
+Módulo que contiene la clase Vector.
+
+Clase que administra una colección de objetos Transporte.
+"""
+
+from src.entities.transporte import Transporte
 
 
 class Vector:
@@ -9,13 +15,16 @@ class Vector:
     de todos los transportes almacenados.
     """
 
-    def __init__(self):
-        """
-        Inicializa el vector (lista) de transportes vacío.
-        """
-        self.transporte = []
+    def __init__(self) -> None:
+        """Inicializa el vector (lista) de transportes vacío."""
+        self._transportes: list = []
 
-    def agregar_transporte(self, transporte: transporte.Transporte):
+    @property
+    def transportes(self) -> list:
+        """Obtiene la lista de transportes."""
+        return self._transportes
+
+    def agregar_transporte(self, transporte: Transporte) -> None:
         """
         Agrega un objeto Transporte a la lista.
 
@@ -24,12 +33,12 @@ class Vector:
                                      o cualquiera de sus clases hijas
                                      (Bus, Metro, etc.).
         """
-        self.transporte.append(transporte)
+        self._transportes.append(transporte)
 
-    def mostrar_transporte(self):
+    def mostrar_transporte(self) -> None:
         """
         Recorre la lista de transportes e imprime la información
         de cada uno utilizando polimorfismo.
         """
-        for t in self.transporte:
+        for t in self._transportes:
             t.imprimir_data()
