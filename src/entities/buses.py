@@ -1,7 +1,13 @@
-from clases import transporte
+"""
+Módulo que contiene la clase Bus.
+
+Clase que representa un Bus dentro del sistema de transporte.
+"""
+
+from src.entities.transporte import Transporte
 
 
-class Bus(transporte.Transporte):
+class Bus(Transporte):
     """
     Clase que representa un Bus dentro del sistema de transporte.
 
@@ -9,7 +15,9 @@ class Bus(transporte.Transporte):
     'placa', propio de los buses.
     """
 
-    def __init__(self, marca: str, modelo: str, capacidad: int, placa: str):
+    def __init__(
+        self, marca: str, modelo: str, capacidad: int, placa: str
+    ) -> None:
         """
         Inicializa un objeto Bus.
 
@@ -20,21 +28,26 @@ class Bus(transporte.Transporte):
             placa (str): Placa del bus.
         """
         super().__init__(marca, modelo, capacidad)
-        self.placa = placa
+        self._placa = placa
 
-    def imprimir_data(self):
+    @property
+    def placa(self) -> str:
+        """Obtiene la placa del bus."""
+        return self._placa
+
+    def imprimir_data(self) -> None:
         """
         Imprime la información completa del bus en consola.
 
         Muestra la marca, modelo, capacidad y placa del bus.
         """
         print(
-            f"La marca del carro es {self.marca}, modelo {self.modelo}"
-            f", capacidad de {self.capacidad} personas, y placa {self.placa}"
+            f"La marca del carro es {self.marca}, modelo {self.modelo}, "
+            f"capacidad de {self.capacidad} personas, y placa {self._placa}"
         )
 
     @classmethod
-    def añadir_bus(cls):
+    def añadir_bus(cls) -> "Bus":
         """
         Crea un nuevo objeto Bus solicitando los datos al usuario.
 

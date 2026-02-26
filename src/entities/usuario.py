@@ -4,10 +4,10 @@ Módulo que contiene la clase Usuario.
 Clase para representar un usuario del sistema de transporte público.
 """
 
-from clases import persona
+from src.entities.persona import Persona
 
 
-class Usuario(persona.Persona):
+class Usuario(Persona):
     """
     Clase que representa un usuario del sistema de transporte.
 
@@ -28,8 +28,8 @@ class Usuario(persona.Persona):
         documento: str,
         edad: int,
         telefono: str,
-        saldo: float = 0.0
-    ):
+        saldo: float = 0.0,
+    ) -> None:
         """
         Inicializa una nueva instancia de Usuario.
 
@@ -41,8 +41,18 @@ class Usuario(persona.Persona):
             saldo (float): Saldo inicial en la tarjeta. Default: 0.0
         """
         super().__init__(nombre, documento, edad, telefono)
-        self.saldo = saldo
-        self.historial_compras = []
+        self._saldo = saldo
+        self._historial_compras: list = []
+
+    @property
+    def saldo(self) -> float:
+        """Obtiene el saldo actual del usuario."""
+        return self._saldo
+
+    @property
+    def historial_compras(self) -> list:
+        """Obtiene el historial de compras del usuario."""
+        return self._historial_compras
 
     def consultar_saldo(self) -> float:
         """
@@ -51,7 +61,7 @@ class Usuario(persona.Persona):
         Returns:
             float: Saldo disponible en la tarjeta.
         """
-        return self.saldo
+        return self._saldo
 
     def recargar_tarjeta(self, monto: float) -> bool:
         """
@@ -69,13 +79,9 @@ class Usuario(persona.Persona):
         if monto <= 0:
             raise ValueError("El monto a recargar debe ser positivo")
 
-        self.saldo += monto
-        self.historial_compras.append(
-            {
-                "tipo": "recarga",
-                "monto": monto,
-                "saldo_resultante": self.saldo
-            }
+        self._saldo += monto
+        self._historial_compras.append(
+            {"tipo": "recarga", "monto": monto, "saldo_resultante": self._saldo}
         )
         return True
 
@@ -96,17 +102,17 @@ class Usuario(persona.Persona):
         if monto <= 0:
             raise ValueError("El monto del pasaje debe ser positivo")
 
-        if self.saldo < monto:
-            print(f"Saldo insuficiente. Saldo actual: ${self.saldo}")
+        if self._saldo < monto:
+            print(f"Saldo insuficiente. Saldo actual: ${self._saldo}")
             return False
 
-        self.saldo -= monto
-        self.historial_compras.append(
+        self._saldo -= monto
+        self._historial_compras.append(
             {
                 "tipo": "compra",
                 "transporte": transporte_tipo,
                 "monto": monto,
-                "saldo_resultante": self.saldo
+                "saldo_resultante": self._saldo,
             }
         )
         return True
@@ -118,7 +124,7 @@ class Usuario(persona.Persona):
         Returns:
             list: Lista de diccionarios con el historial de transacciones.
         """
-        return self.historial_compras
+        return self._historial_compras
 
     def imprimir_data(self) -> None:
         """
@@ -129,7 +135,7 @@ class Usuario(persona.Persona):
         print(
             f"Nombre: {self.nombre}, Documento: {self.documento}, "
             f"Edad: {self.edad}, Teléfono: {self.telefono}, "
-            f"Saldo: ${self.saldo:.2f}"
+            f"Saldo: ${self._saldo:.2f}"
         )
 
     @classmethod

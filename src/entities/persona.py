@@ -17,12 +17,8 @@ class Persona:
     """
 
     def __init__(
-        self,
-        nombre: str,
-        documento: str,
-        edad: int,
-        telefono: str
-    ):
+        self, nombre: str, documento: str, edad: int, telefono: str
+    ) -> None:
         """
         Inicializa una nueva instancia de Persona.
 
@@ -32,10 +28,30 @@ class Persona:
             edad (int): Edad de la persona.
             telefono (str): Número de teléfono de contacto.
         """
-        self.nombre = nombre
-        self.documento = documento
-        self.edad = edad
-        self.telefono = telefono
+        self._nombre = nombre
+        self._documento = documento
+        self._edad = edad
+        self._telefono = telefono
+
+    @property
+    def nombre(self) -> str:
+        """Obtiene el nombre de la persona."""
+        return self._nombre
+
+    @property
+    def documento(self) -> str:
+        """Obtiene el documento de la persona."""
+        return self._documento
+
+    @property
+    def edad(self) -> int:
+        """Obtiene la edad de la persona."""
+        return self._edad
+
+    @property
+    def telefono(self) -> str:
+        """Obtiene el teléfono de la persona."""
+        return self._telefono
 
     def imprimir_data(self) -> None:
         """
@@ -44,8 +60,8 @@ class Persona:
         Muestra: nombre, documento, edad y teléfono.
         """
         print(
-            f"Nombre: {self.nombre}, Documento: {self.documento}, "
-            f"Edad: {self.edad}, Teléfono: {self.telefono}"
+            f"Nombre: {self._nombre}, Documento: {self._documento}, "
+            f"Edad: {self._edad}, Teléfono: {self._telefono}"
         )
 
     @classmethod
