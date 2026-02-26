@@ -52,16 +52,19 @@ class Metro(Transporte):
         """
         Crea un nuevo objeto Metro solicitando los datos al usuario.
 
-        Este método de clase pide por consola la información necesaria
-        para crear un nuevo metro y devuelve la instancia creada.
+        Los valores numéricos se capturan mediante utilidades que repiten la
+        pregunta hasta recibir un entero válido. Esto evita cierres inesperados
+        por entradas no numéricas.
 
         Returns:
             Metro: Nueva instancia de la clase Metro.
         """
+        from src.entities.input_utils import solicitar_entero
+
         marca = input("Ingrese la marca del metro: ")
         modelo = input("Ingrese el modelo del metro: ")
-        capacidad = int(input("Ingrese la capacidad del metro: "))
-        numero_estaciones = int(
-            input("Ingrese el número de estaciones del metro: ")
+        capacidad = solicitar_entero("Ingrese la capacidad del metro: ")
+        numero_estaciones = solicitar_entero(
+            "Ingrese el número de estaciones del metro: "
         )
         return cls(marca, modelo, capacidad, numero_estaciones)
