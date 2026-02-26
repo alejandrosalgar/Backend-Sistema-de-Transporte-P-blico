@@ -15,10 +15,10 @@ Funcionalidades principales:
 - Mostrar historial de compras.
 """
 
-from clases import metro, buses, vector, usuario, persona
+from src.entities import Metro, Bus, Vector, Usuario
 
 # Instancia principal que administra la lista de transportes
-vector1 = vector.Vector()
+vector1 = Vector()
 usuario1 = None
 
 while True:
@@ -44,12 +44,12 @@ while True:
     match opcion:
         case "1":
             # Crear y agregar un nuevo metro al sistema
-            metro1 = metro.Metro.añadir_metro()
+            metro1 = Metro.añadir_metro()
             vector1.agregar_transporte(metro1)
 
         case "2":
             # Crear y agregar un nuevo bus al sistema
-            bus1 = buses.Bus.añadir_bus()
+            bus1 = Bus.añadir_bus()
             vector1.agregar_transporte(bus1)
 
         case "3":
@@ -58,7 +58,7 @@ while True:
 
         case "4":
             # Crear un nuevo usuario
-            usuario1 = usuario.Usuario.crear_usuario()
+            usuario1 = Usuario.crear_usuario()
 
         case "5":
             # Recargar saldo del usuario
