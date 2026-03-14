@@ -1,156 +1,67 @@
 """
-Módulo que contiene la clase Usuario.
-
-Clase para representar un usuario del sistema de transporte público.
+Entidad Persona: base de trazabilidad.
+Las demás entidades referencian a Persona en id_usuario_crea e id_usuario_edita.
 """
 
-from src.entities.persona import Persona
+import uuid
+from datetime import datetime
+from typing import Optional
+from uuid import UUID
+
+from pydantic import BaseModel, EmailStr, Field
+from sqlalchemy import Boolean, Column, DateTime, String
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+from sqlalchemy.sql import func
+
+from src.database.config import Base
 
 
-class Usuario(Persona):
-    """
-    Clase que representa un usuario del sistema de transporte.
+class Usuario(Base):
+    """Modelo ORM Persona. Es quien crea/edita registros (trazabilidad)."""
 
-    Hereda de Persona y agrega funcionalidades de tarjeta y compras.
+    __tablename__ = "usuario"
 
-    Attributes:
-        nombre (str): Nombre completo del usuario.
-        documento (str): Número de documento de identidad.
-        edad (int): Edad del usuario.
-        telefono (str): Número de teléfono de contacto.
-        saldo (float): Saldo disponible en la tarjeta.
-        historial_compras (list): Lista de compras realizadas.
-    """
+    id_usuario = Column(
+        PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True
+    )
 
-    def __init__(
-        self,
-        nombre: str,
-        documento: str,
-        edad: int,
-        telefono: str,
-        saldo: float = 0.0,
-    ) -> None:
-        """
-        Inicializa una nueva instancia de Usuario.
+    nombre_usuario = Column(String(150), nullable=False)
+    activo = Column(Boolean, default=True)
+    rol = Column(String(50), nullable=False)
+    contrasena = Column(String(255), nullable=False)
 
-        Args:
-            nombre (str): Nombre completo del usuario.
-            documento (str): Número de documento de identidad.
-            edad (int): Edad del usuario.
-            telefono (str): Número de teléfono de contacto.
-            saldo (float): Saldo inicial en la tarjeta. Default: 0.0
-        """
-        super().__init__(nombre, documento, edad, telefono)
-        self._saldo = saldo
-        self._historial_compras: list = []
+    fecha_creacion = Column(DateTime(timezone=True), server_default=func.now())
+    fecha_edicion = Column(DateTime(timezone=True), onupdate=func.now())
 
-    @property
-    def saldo(self) -> float:
-        """Obtiene el saldo actual del usuario."""
-        return self._saldo
 
-    @property
-    def historial_compras(self) -> list:
-        """Obtiene el historial de compras del usuario."""
-        return self._historial_compras
+class PersonaBase(BaseModel):
+    """Esquema base con validaciones simples."""
 
-    def consultar_saldo(self) -> float:
-        """
-        Consulta el saldo actual de la tarjeta del usuario.
+    nombre: str = Field(..., min_length=1, max_length=150)
+    email: EmailStr
+    activo: bool = True
 
-        Returns:
-            float: Saldo disponible en la tarjeta.
-        """
-        return self._saldo
 
-    def recargar_tarjeta(self, monto: float) -> bool:
-        """
-        Recarga el saldo de la tarjeta del usuario.
+class PersonaCreate(PersonaBase):
+    """Esquema para creación."""
 
-        Args:
-            monto (float): Cantidad a recargar en la tarjeta.
+    pass
 
-        Returns:
-            bool: True si la recarga fue exitosa, False en caso contrario.
 
-        Raises:
-            ValueError: Si el monto es negativo o cero.
-        """
-        if monto <= 0:
-            raise ValueError("El monto a recargar debe ser positivo")
+class PersonaUpdate(BaseModel):
+    """Esquema para actualización parcial."""
 
-        self._saldo += monto
-        self._historial_compras.append(
-            {"tipo": "recarga", "monto": monto, "saldo_resultante": self._saldo}
-        )
-        return True
+    nombre_usuario: Optional[str] = Field(None, min_length=1, max_length=150)
+    email: Optional[EmailStr] = None
+    activo: Optional[bool] = None
 
-    def registrar_compra(self, transporte_tipo: str, monto: float) -> bool:
-        """
-        Registra una compra de pasaje en el historial del usuario.
 
-        Args:
-            transporte_tipo (str): Tipo de transporte (bus, metro, tranvía).
-            monto (float): Costo del pasaje.
+class PersonaResponse(PersonaBase):
+    """Esquema de respuesta (lectura)."""
 
-        Returns:
-            bool: True si la compra fue exitosa, False si no hay saldo suficiente.
+    id_usuario: UUID
+    fecha_creacion: datetime
+    fecha_edicion: Optional[datetime] = None
 
-        Raises:
-            ValueError: Si el monto es negativo o cero.
-        """
-        if monto <= 0:
-            raise ValueError("El monto del pasaje debe ser positivo")
-
-        if self._saldo < monto:
-            print(f"Saldo insuficiente. Saldo actual: ${self._saldo}")
-            return False
-
-        self._saldo -= monto
-        self._historial_compras.append(
-            {
-                "tipo": "compra",
-                "transporte": transporte_tipo,
-                "monto": monto,
-                "saldo_resultante": self._saldo,
-            }
-        )
-        return True
-
-    def obtener_historial(self) -> list:
-        """
-        Obtiene el historial completo de compras y recargas.
-
-        Returns:
-            list: Lista de diccionarios con el historial de transacciones.
-        """
-        return self._historial_compras
-
-    def imprimir_data(self) -> None:
-        """
-        Imprime los datos del usuario incluyendo saldo actual.
-
-        Muestra: nombre, documento, edad, teléfono y saldo.
-        """
-        print(
-            f"Nombre: {self.nombre}, Documento: {self.documento}, "
-            f"Edad: {self.edad}, Teléfono: {self.telefono}, "
-            f"Saldo: ${self._saldo:.2f}"
-        )
-
-    @classmethod
-    def crear_usuario(cls) -> "Usuario":
-        """
-        Método de clase para crear una instancia de Usuario por entrada del usuario.
-
-        Solicita entrada del usuario para nombre, documento, edad, teléfono y saldo.
-
-        Returns:
-            Usuario: Nueva instancia con datos ingresados por el usuario.
-        """
-        nombre = input("Ingrese el nombre: ")
-        documento = input("Ingrese el documento: ")
-        edad = int(input("Ingrese la edad: "))
-        telefono = input("Ingrese el teléfono: ")
-        saldo = float(input("Ingrese el saldo inicial (opcional, default 0): ") or 0)
-        return cls(nombre, documento, edad, telefono, saldo)
+    class Config:
+        from_attributes = True
