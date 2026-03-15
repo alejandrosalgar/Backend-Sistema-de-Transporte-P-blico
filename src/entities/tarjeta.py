@@ -44,5 +44,5 @@ class Tarjeta(Base):
     usuario_edita = relationship("Usuario", foreign_keys=[id_usuario_edita])
     usuario = relationship("Usuario", foreign_keys=[id_usuario])
 
-    fecha_creacion = Column(DateTime, default=func.now())
-    fecha_edicion = Column(DateTime, default=func.now())
+    fecha_creacion = Column(DateTime, server_default=func.now())
+    fecha_edicion = Column(DateTime, server_default=func.now(), onupdate=func.now())
