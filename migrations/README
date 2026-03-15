@@ -1,0 +1,10 @@
+Generic single-database configuration for Alembic.
+
+Se usa DATABASE_URL del archivo .env en la raíz del proyecto.
+Modelos en src.entities; Base en src.database.config.
+
+Comandos útiles:
+  alembic revision --autogenerate -m "descripción"
+  alembic upgrade head
+  alembic downgrade -1
+  alembic history
