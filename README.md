@@ -78,7 +78,7 @@ python main.py
 
 ## Video demostrativo
 
-🎥 URL del video: (agregar aquí la URL cuando esté grabado)
+🎥 URL del video:(https://vimeo.com/1175196727?share=copy&fl=sv&fe=ci)
 
 ## Licencia
 
