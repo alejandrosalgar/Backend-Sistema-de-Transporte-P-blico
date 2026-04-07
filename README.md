@@ -60,8 +60,13 @@ bash
 
 
 ## Ejecución
+
+Para levantar el API, desde la raíz del proyecto:
+
 bash
-python main.py
+   python main.py
+
+La documentación interactiva (Swagger) queda disponible en http://localhost:8000/docs.
 
 
 ## Flujo Git
@@ -78,7 +83,7 @@ python main.py
 
 ## Video demostrativo
 
-🎥 URL del video:(https://vimeo.com/1175196727?share=copy&fl=sv&fe=ci)
+🎥 URL del video: (pendiente — agregar después de grabar)
 
 ## Licencia
 
