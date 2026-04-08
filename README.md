@@ -83,7 +83,8 @@ La documentación interactiva (Swagger) queda disponible en http://localhost:800
 
 ## Video demostrativo
 
-🎥 URL del video: (pendiente — agregar después de grabar)
+🎥 URL del video: https://vimeo.com/1181014391?share=copy&fl=sv&fe=ci
+##nota: el video no incluye en su totalidad las pruebas absolutas de todos los endpoints para no sobrepasar cantidad de tiempo pero se comprueba la persistencia y funcionamiento crud.
 
 ## Licencia
 
