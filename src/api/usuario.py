@@ -55,6 +55,12 @@ def crear_usuario(usuario: UsuarioCreate):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@router.get("/", response_model=List[UsuarioResponse])
+def obtener_usuarios():
+    """Obtiene todos los usuarios."""
+    return usuario_crud.obtener_todos()
+
+
 @router.get("/{id_usuario}", response_model=UsuarioResponse)
 def obtener_usuario(id_usuario: UUID):
     """Obtiene un usuario por ID."""
@@ -62,12 +68,6 @@ def obtener_usuario(id_usuario: UUID):
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return usuario
-
-
-@router.get("/", response_model=List[UsuarioResponse])
-def obtener_usuarios():
-    """Obtiene todos los usuarios."""
-    return usuario_crud.obtener_todos()
 
 
 @router.put("/{id_usuario}", response_model=UsuarioResponse)
@@ -83,6 +83,13 @@ def actualizar_usuario(id_usuario: UUID, usuario: UsuarioUpdate):
     if not actualizado:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return actualizado
+
+
+@router.delete("/{id_usuario}", status_code=204)
+def eliminar_usuario(id_usuario: UUID):
+    """Elimina un usuario."""
+    if not usuario_crud.eliminar(id_usuario):
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
 
 
 @router.post("/login")
