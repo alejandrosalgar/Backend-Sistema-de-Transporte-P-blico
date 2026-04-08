@@ -98,3 +98,10 @@ def actualizar_ruta(id_ruta: UUID, ruta: RutaUpdate):
     if not actualizada:
         raise HTTPException(status_code=404, detail="Ruta no encontrada")
     return actualizada
+
+
+@router.delete("/{id_ruta}", status_code=204)
+def eliminar_ruta(id_ruta: UUID):
+    """Elimina una ruta."""
+    if not ruta_crud.eliminar(id_ruta):
+        raise HTTPException(status_code=404, detail="Ruta no encontrada")
