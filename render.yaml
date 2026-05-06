@@ -1,0 +1,17 @@
+# Blueprint para Render (https://render.com). Conecta el repo del backend y despliega como Web Service.
+# En el panel: New → Blueprint → pegar repo; configura DATABASE_URL y ALLOWED_ORIGINS en Environment.
+#
+# Plan gratuito: el servicio puede entrar en reposo tras inactividad (primer request lento).
+
+services:
+  - type: web
+    name: transporte-publico-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && alembic upgrade head
+    startCommand: uvicorn src.api.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
